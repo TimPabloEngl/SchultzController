@@ -375,7 +375,7 @@ void processCommand(String cmdBuf) {
         sprintf(idStr, "ID: %u%s", id, (left ? "L" : "R"));
         sendAnswer(0,idStr);
       } else {
-        sendAnswer(1," no response from feeder");
+        sendAnswer(1,"no response from feeder");
       }
 
       break;
@@ -528,6 +528,129 @@ void processCommand(String cmdBuf) {
     }
 
 
+    /*
+		WIDE-FEEDER-CODES
+		*/
+
+    case MCODE_FEEDER_STATUS_WIDE: {
+			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+
+			//check for presence of FeederNo
+			if(!validFeederNo(signedFeederNo,1)) {
+				sendAnswer(1,"feederNo missing or invalid");
+				break;
+			}
+
+			sendAnswer(0,"getFeederStatus: feeder UNKNOWN (Verify feeder status manually) ");
+
+			break;
+		}
+
+
+    case MCODE_TOGGLE_PITCH_WIDE: {
+      int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+      
+
+      //check for presence of FeederNo
+      if(!validFeederNo(signedFeederNo,1)) {
+        sendAnswer(1,"feederNo missing or invalid");
+        break;
+      }
+
+      
+      sendAnswer(1,"Adjust the pitch using the two control buttons located below the wide feeder's display");
+      
+      break;
+    }
+
+
+    case MCODE_GET_PITCH_WIDE: {
+			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+
+			//check for presence of FeederNo
+			if(!validFeederNo(signedFeederNo,1)) {
+				sendAnswer(1,"feederNo missing or invalid");
+				break;
+			}
+
+      
+      sendAnswer(0," Check the status output on the wide feeders integrated display");
+			
+			break;
+		}
+
+    case MCODE_GET_FEED_COUNT_WIDE: {
+			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+
+			//check for presence of FeederNo
+			if(!validFeederNo(signedFeederNo,1)) {
+				sendAnswer(1,"feederNo missing or invalid");
+				break;
+			}
+ 
+        sendAnswer(0,"Feed count not supported for wide feeders");
+      
+
+			break;
+		}
+
+
+    case MCODE_PRE_PICK_WIDE: {
+
+			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+
+			//check for presence of a mandatory FeederNo
+			if(!validFeederNo(signedFeederNo,1)) {
+				sendAnswer(1,"feederNo missing or invalid");
+				break;
+			}
+
+			
+			sendAnswer(1,"Pre-pick is not supported on wide feeders");
+			
+     
+      break;
+		}
+
+    case MCODE_ADVANCE_WIDE: {
+			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+			
+			//check for presence of a mandatory FeederNo
+			if(!validFeederNo(signedFeederNo,1)) {
+				sendAnswer(1,"feederNo missing or invalid");
+				break;
+			}
+
+			//send feed command
+			if (!feeders[signedFeederNo].sendAdvance(true)) {
+				sendAnswer(1,"Unable to advance tape");
+			} else {
+				sendAnswer(0,"Tape advanced(error will be ignored)");
+			}
+			
+			break;
+		}
+
+    case MCODE_GET_FEEDER_ID_WIDE: {
+      int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+
+      //check for presence of FeederNo
+      if(!validFeederNo(signedFeederNo,1)) {
+        sendAnswer(1,"feederNo missing or invalid");
+        break;
+      }
+
+    
+      char idStr[50];
+      sprintf(idStr, "ID: Wide feeder unknown ID");
+      sendAnswer(0, idStr);
+
+      
+      
+
+      break;
+    }
+    
 		default:
 		sendAnswer(0,"unknown or empty command ignored");
 

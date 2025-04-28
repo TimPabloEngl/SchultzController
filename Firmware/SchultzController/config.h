@@ -2,8 +2,8 @@
 #define _CONFIG_h
 #include "arduino.h"
 
-//#define BOARD96PIN
-#define BOARD4PIN
+#define BOARD96PIN
+//#define BOARD4PIN
 
 // prints some extra information via serial1
 // uncomment to disable in production
@@ -78,6 +78,15 @@
 #define MCODE_START_SELF_TEST 650
 #define MCODE_STOP_SELF_TEST 651
 
+// Wide Feeder
+
+#define MCODE_GET_FEEDER_ID_WIDE 710
+#define MCODE_PRE_PICK_WIDE 700
+#define MCODE_ADVANCE_WIDE 701
+#define MCODE_GET_FEED_COUNT_WIDE 703
+#define MCODE_GET_PITCH_WIDE 708
+#define MCODE_TOGGLE_PITCH_WIDE 728
+#define MCODE_FEEDER_STATUS_WIDE 702
 
 //DEFINE config_h-ENDIF!!!
 #endif
