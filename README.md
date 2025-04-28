@@ -11,3 +11,11 @@ The controller board distributes power to the feeders and provides the communica
 ## Arduino code in the firmware section.
 
 The board uses a Arduino Nano Every.  This is a low cost arduino which can easily be soldered to the control board.  Edit the config.h file in the arduino sketch to select the type of board you are using, then upload the sketch to the board.
+
+
+## EnglController Extension
+
+The EnglController builds upon the SchultzController framework and introduces significant improvements to broaden hardware compatibility.
+In particular, support for wider feeder types has been added, ensuring correct operation without triggering error states.
+Additional feedback mechanisms have been implemented to inform users when specific functions are unavailable due to hardware constraints.
+These enhancements ensure a more flexible and robust feeder control system while maintaining full compatibility with the original SchultzController concept.
