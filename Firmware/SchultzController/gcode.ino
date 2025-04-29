@@ -558,11 +558,26 @@ void processCommand(String cmdBuf) {
       }
 
       
-      sendAnswer(1,"Adjust the pitch using the two control buttons located below the wide feeder's display");
+      sendAnswer(0,"Adjust the pitch using the two control buttons located below the wide feeder's display");
       
       break;
     }
 
+    case MCODE_CLEAR_FEED_COUNT_WIDE: {
+      int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
+      
+
+      //check for presence of FeederNo
+      if(!validFeederNo(signedFeederNo,1)) {
+        sendAnswer(1,"feederNo missing or invalid");
+        break;
+      }
+
+      
+      sendAnswer(0,"Feed count reset is not supported for wide feeders");
+      
+      break;
+    }
 
     case MCODE_GET_PITCH_WIDE: {
 			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
@@ -588,7 +603,7 @@ void processCommand(String cmdBuf) {
 				break;
 			}
  
-        sendAnswer(0,"Feed count not supported for wide feeders");
+        sendAnswer(0,"Feed count is not supported for wide feeders");
       
 
 			break;
@@ -605,12 +620,16 @@ void processCommand(String cmdBuf) {
 				break;
 			}
 
-			
-			sendAnswer(1,"Pre-pick is not supported on wide feeders");
-			
+			//send pre pick command
+			if (!feeders[signedFeederNo].sendPrePick()) {
+				sendAnswer(0,"Pre-pick functionality is not available for specific wide feeder configurations.");
+			} else {
+				sendAnswer(0,"Shutter opened");
+			}
      
       break;
 		}
+    
 
     case MCODE_ADVANCE_WIDE: {
 			int8_t signedFeederNo = (int)parseParameter(cmdBuf, 'N',-1);
